@@ -1,0 +1,96 @@
+name: Teste Microservices
+
+on:
+  push:
+    branches: [develop2]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test-auth-service:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout de código
+        uses: actions/checkout@v4
+
+      - name: Configurar Python 3.12.4
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12.4'
+
+      - name: Install dependencies
+        working-directory: ./Curso-CI_com_Docker_e_GitHub_Actions_do_build_ao_deploy_em_nuvem/burguer-app/auth-service
+        run: |
+          pip install -r requirements.txt
+
+      - name: Rodar testes
+        working-directory: ./Curso-CI_com_Docker_e_GitHub_Actions_do_build_ao_deploy_em_nuvem/burguer-app/auth-service
+        run: |
+          pytest -v --cov=models --cov=services --cov=config --cov=controllers
+          radon cc ./models/user_model.py
+
+  test-order-service:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout de código
+        uses: actions/checkout@v4
+
+      - name: Configurar Python 3.12.4
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12.4'
+
+      - name: Install dependencies
+        working-directory: ./Curso-CI_com_Docker_e_GitHub_Actions_do_build_ao_deploy_em_nuvem/burguer-app/order-service
+        run: |
+          pip install -r requirements.txt
+
+      - name: Rodar testes
+        working-directory: ./Curso-CI_com_Docker_e_GitHub_Actions_do_build_ao_deploy_em_nuvem/burguer-app/order-service
+        run: |
+          pytest -v --cov=models --cov=services --cov=config --cov=controllers
+          radon cc ./models/order_model.py
+
+  test-product-service:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout de código
+        uses: actions/checkout@v4
+
+      - name: Configurar Python 3.12.4
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12.4'
+
+      - name: Install dependencies
+        working-directory: ./Curso-CI_com_Docker_e_GitHub_Actions_do_build_ao_deploy_em_nuvem/burguer-app/product-service
+        run: |
+          pip install -r requirements.txt
+
+      - name: Rodar testes
+        working-directory: ./Curso-CI_com_Docker_e_GitHub_Actions_do_build_ao_deploy_em_nuvem/burguer-app/product-service
+        run: |
+          pytest -v --cov=models --cov=services --cov=config --cov=controllers
+          radon cc ./models/product_model.py
+
+  test-user-service:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout de código
+        uses: actions/checkout@v4
+
+      - name: Configurar Python 3.12.4
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12.4'
+
+      - name: Install dependencies
+        working-directory: ./Curso-CI_com_Docker_e_GitHub_Actions_do_build_ao_deploy_em_nuvem/burguer-app/user-service
+        run: |
+          pip install -r requirements.txt
+
+      - name: Rodar testes
+        working-directory: ./Curso-CI_com_Docker_e_GitHub_Actions_do_build_ao_deploy_em_nuvem/burguer-app/user-service
+        run: |
+          pytest -v --cov=models --cov=services --cov=config --cov=controllers
+          radon cc ./models/user_model.py
