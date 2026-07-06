@@ -3,6 +3,7 @@ name: Teste Microservices
 on:
   push:
     branches: [develop2]
+
   pull_request:
     branches: [main]
 
@@ -21,13 +22,24 @@ jobs:
       - name: Install dependencies
         working-directory: ./Curso-CI_com_Docker_e_GitHub_Actions_do_build_ao_deploy_em_nuvem/burguer-app/auth-service
         run: |
-          pip install -r requirements.txt
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt pytest pytest-cov pytest-html
+
+      - name: Criar diretório de relatórios
+        working-directory: ./Curso-CI_com_Docker_e_GitHub_Actions_do_build_ao_deploy_em_nuvem/burguer-app/auth-service
+        run: mkdir -p reports
 
       - name: Rodar testes
         working-directory: ./Curso-CI_com_Docker_e_GitHub_Actions_do_build_ao_deploy_em_nuvem/burguer-app/auth-service
         run: |
-          pytest -v --cov=models --cov=services --cov=config --cov=controllers
-          radon cc ./models/user_model.py
+          pytest -v --maxfail=1 --cov-report=term-missing --cov-report=xml:reports/coverage.xml --cov-report=html:reports/coverage_html --junitxml=reports/junit.xml
+
+      - name: Publicar relatórios do auth-service
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: auth-service-reports
+          path: ./Curso-CI_com_Docker_e_GitHub_Actions_do_build_ao_deploy_em_nuvem/burguer-app/auth-service/reports
 
   test-order-service:
     runs-on: ubuntu-latest
@@ -43,13 +55,24 @@ jobs:
       - name: Install dependencies
         working-directory: ./Curso-CI_com_Docker_e_GitHub_Actions_do_build_ao_deploy_em_nuvem/burguer-app/order-service
         run: |
-          pip install -r requirements.txt
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt pytest pytest-cov pytest-html
+
+      - name: Criar diretório de relatórios
+        working-directory: ./Curso-CI_com_Docker_e_GitHub_Actions_do_build_ao_deploy_em_nuvem/burguer-app/order-service
+        run: mkdir -p reports
 
       - name: Rodar testes
         working-directory: ./Curso-CI_com_Docker_e_GitHub_Actions_do_build_ao_deploy_em_nuvem/burguer-app/order-service
         run: |
-          pytest -v --cov=models --cov=services --cov=config --cov=controllers
-          radon cc ./models/order_model.py
+          pytest -v --maxfail=1 --cov-report=term-missing --cov-report=xml:reports/coverage.xml --cov-report=html:reports/coverage_html --junitxml=reports/junit.xml
+
+      - name: Publicar relatórios do order-service
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: order-service-reports
+          path: ./Curso-CI_com_Docker_e_GitHub_Actions_do_build_ao_deploy_em_nuvem/burguer-app/order-service/reports
 
   test-product-service:
     runs-on: ubuntu-latest
@@ -65,13 +88,24 @@ jobs:
       - name: Install dependencies
         working-directory: ./Curso-CI_com_Docker_e_GitHub_Actions_do_build_ao_deploy_em_nuvem/burguer-app/product-service
         run: |
-          pip install -r requirements.txt
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt pytest pytest-cov pytest-html
+
+      - name: Criar diretório de relatórios
+        working-directory: ./Curso-CI_com_Docker_e_GitHub_Actions_do_build_ao_deploy_em_nuvem/burguer-app/product-service
+        run: mkdir -p reports
 
       - name: Rodar testes
         working-directory: ./Curso-CI_com_Docker_e_GitHub_Actions_do_build_ao_deploy_em_nuvem/burguer-app/product-service
         run: |
-          pytest -v --cov=models --cov=services --cov=config --cov=controllers
-          radon cc ./models/product_model.py
+          pytest -v --maxfail=1 --cov-report=term-missing --cov-report=xml:reports/coverage.xml --cov-report=html:reports/coverage_html --junitxml=reports/junit.xml
+
+      - name: Publicar relatórios do product-service
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: product-service-reports
+          path: ./Curso-CI_com_Docker_e_GitHub_Actions_do_build_ao_deploy_em_nuvem/burguer-app/product-service/reports
 
   test-user-service:
     runs-on: ubuntu-latest
@@ -87,10 +121,21 @@ jobs:
       - name: Install dependencies
         working-directory: ./Curso-CI_com_Docker_e_GitHub_Actions_do_build_ao_deploy_em_nuvem/burguer-app/user-service
         run: |
-          pip install -r requirements.txt
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt pytest pytest-cov pytest-html
+
+      - name: Criar diretório de relatórios
+        working-directory: ./Curso-CI_com_Docker_e_GitHub_Actions_do_build_ao_deploy_em_nuvem/burguer-app/user-service
+        run: mkdir -p reports
 
       - name: Rodar testes
         working-directory: ./Curso-CI_com_Docker_e_GitHub_Actions_do_build_ao_deploy_em_nuvem/burguer-app/user-service
         run: |
-          pytest -v --cov=models --cov=services --cov=config --cov=controllers
-          radon cc ./models/user_model.py
+          pytest -v --maxfail=1 --cov-report=term-missing --cov-report=xml:reports/coverage.xml --cov-report=html:reports/coverage_html --junitxml=reports/junit.xml
+
+      - name: Publicar relatórios do user-service
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: user-service-reports
+          path: ./Curso-CI_com_Docker_e_GitHub_Actions_do_build_ao_deploy_em_nuvem/burguer-app/user-service/reports

@@ -2,7 +2,10 @@ name: Deploy to ECS (Fargate) via Docker Hub
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [develop2]
+
+  pull_request:
+    branches: [main]
 
 env:
   CLUSTER_NAME: app-cluster

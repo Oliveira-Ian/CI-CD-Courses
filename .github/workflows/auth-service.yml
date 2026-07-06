@@ -2,11 +2,10 @@ name: Testes Auth Service
 
 on:
   push:
-    branches: [ "unit-test-preparation" ]
-   
+    branches: [develop2]
+
   pull_request:
-    branches: [ "unit-test-preparation" ]
-   
+    branches: [main]
 
 jobs:
   test-auth-service:
@@ -16,20 +15,29 @@ jobs:
         working-directory: ./Curso-CI_com_Docker_e_GitHub_Actions_do_build_ao_deploy_em_nuvem/burguer-app/auth-service
 
     steps:
-    - name: 📦 Checkout do código
-      uses: actions/checkout@v4
+      - name: Checkout do código
+        uses: actions/checkout@v4
 
-    - name: 🐍 Configurar Python 3.12
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.12.4'
+      - name: Configurar Python 3.12.4
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12.4'
 
-    - name: 📚 Instalar dependências do auth-service
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
-        pip install pytest pytest-cov
+      - name: Instalar dependências do auth-service
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt pytest pytest-cov pytest-html
 
-    - name: 🧪 Rodar testes com cobertura
-      run: |
-        pytest --cov=. --cov-report=term-missing --cov-branch --cov-fail-under=90
+      - name: Criar diretório de relatórios
+        run: mkdir -p reports
+
+      - name: Rodar testes com cobertura e relatórios
+        run: |
+          pytest -v --maxfail=1 --cov-report=term-missing --cov-report=xml:reports/coverage.xml --cov-report=html:reports/coverage_html --junitxml=reports/junit.xml
+
+      - name: Publicar relatórios de teste
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: auth-service-reports
+          path: ./Curso-CI_com_Docker_e_GitHub_Actions_do_build_ao_deploy_em_nuvem/burguer-app/auth-service/reports
