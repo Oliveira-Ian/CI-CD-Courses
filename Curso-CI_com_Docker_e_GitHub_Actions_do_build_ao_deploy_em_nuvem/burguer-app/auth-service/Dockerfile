@@ -24,8 +24,7 @@ FROM base AS builder
 COPY requirements.txt /app/
 
 # Instalar dependências em cache layer
-RUN pip install --upgrade pip \
-    && pip install --prefix=/install -r requirements.txt
+RUN pip install --prefix=/install -r requirements.txt
 
 # ================================
 # Etapa 3: Final image (slim)
