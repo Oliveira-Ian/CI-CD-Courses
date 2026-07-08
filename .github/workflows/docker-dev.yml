@@ -8,6 +8,12 @@ on:
     branches:
       - main
 
+permissions:
+  actions: read
+  contents: read
+  security-events: write
+
+
 jobs:
   docker-up:
     runs-on: ubuntu-latest
