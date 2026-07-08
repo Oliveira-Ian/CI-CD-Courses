@@ -52,3 +52,9 @@ services:
 networks:
   microservices-network:
     driver: bridge
+# Comando para subir docker compose (professor):
+  # docker compose up -d --build
+  
+# No meu ambiente preciso ignorar o docker-compose.override.yml, pois ele é usado em outra etapa do curso.
+# Por isso utilizo:
+  # docker compose -f docker-compose.yml up -d --build
