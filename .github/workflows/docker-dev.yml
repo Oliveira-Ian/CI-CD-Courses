@@ -92,6 +92,7 @@ jobs:
         working-directory: ./Curso-CI_com_Docker_e_GitHub_Actions_do_build_ao_deploy_em_nuvem/burguer-app
         run: docker-compose down --volumes
 
+
       # 1️⃣1️⃣ Verificação de vulnerabilidades com Trivy (sem docker run)
       - name: Install Trivy
         run: |
@@ -111,6 +112,8 @@ jobs:
 
       - name: Scan order-service image with Trivy
         run: trivy image --severity HIGH,CRITICAL burguer-app-order-service:latest
+      
+
       # 1️⃣2️⃣ Verificação de dependências Python com Safety (via Docker)
       - name: Run Safety check (user-service)
         working-directory: ./Curso-CI_com_Docker_e_GitHub_Actions_do_build_ao_deploy_em_nuvem/burguer-app
