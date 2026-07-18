@@ -27,7 +27,7 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      # Build, tag e push das imagens
+      # Build, tag e push das imagens.
       - name: Build and push Docker images
         run: |
           # Auth service
